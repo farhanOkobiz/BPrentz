@@ -1,0 +1,9 @@
+@import "tailwindcss";
+.categoryTable th.ant-table-cell {
+  width: 40%;
+}
+/* @layer components {
+  .container {
+    @apply py-32 2xl:px-32 xl:px-28 lg:px-20 md:px-12 px-8 mx-auto;
+  }
+} */

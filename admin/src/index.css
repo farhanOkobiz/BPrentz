@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+#components-form-demo-normal-login .login-form {
+  max-width: 300px;
+}
+#components-form-demo-normal-login .login-form-forgot {
+  float: right;
+}
+#components-form-demo-normal-login .ant-col-rtl .login-form-forgot {
+  float: left;
+}
+#components-form-demo-normal-login .login-form-button {
+  width: 100%;
+  display: block;
+}
+
+.list-item:last-child {
+  border: none !important;
+}
+
+.optionse:last-child {
+  border: none !important;
+}
+
+.custom-menu .ant-menu-item-selected {
+  background-color: #97c7a0 !important; /* Light Peach Background */
+  color: #1a8e47 !important; /* Amber Text */
+}
+
+.custom-menu .ant-menu-item-selected:hover {
+  background-color: #97c7a0 !important; /* Darker Peach Hover */
+  color: #1c753c !important; /* Darker Amber for better contrast */
+}
+
+.custom-menu .ant-menu-submenu-selected > .ant-menu-submenu-title {
+  color: #1a8e47 !important; /* Amber Text for Selected Submenu */
+}
+
+.custom-menu .ant-menu-submenu-open > .ant-menu-submenu-title {
+  color: #1a8e47 !important; /* Ensure it's not blue when open */
+}
+
+/* Base Button Style */
+.custom-button {
+  background-color: #1a8e47 !important; /* Amber/Orange */
+  color: white !important;
+  border-color: #1a8e47 !important;
+  font-weight: 600;
+  opacity: 80;
+  transition: all 0.3s ease;
+}
+
+/* Button Hover Effect */
+.custom-button:hover {
+  background-color: #1a8e47 !important; /* Dark Amber */
+  border-color: #1a8e47 !important;
+  color: white !important;
+}
+
+/* Primary Button */
+.custom-button.primary {
+  background-color: #2563eb !important; /* Blue */
+  border-color: #2563eb !important;
+}
+
+/* Danger Button */
+.custom-button.danger {
+  background-color: #dc2626 !important; /* Red */
+  border-color: #dc2626 !important;
+}
+
+.custom-button.danger:hover {
+  background-color: #b91c1c !important; /* Dark Red */
+  border-color: #b91c1c !important;
+}
+
+.custom-menu .ant-menu-item-selected {
+  background: linear-gradient(90deg, #f15927 0%, #f59e42 100%) !important;
+  color: #fff !important;
+  border-radius: 8px;
+  font-weight: 600;
+}
+.custom-menu .ant-menu-item-selected .ant-menu-title-content {
+  color: #fff !important;
+}
+
+@layer components {
+  .container {
+    @apply py-32 2xl:px-32 xl:px-28 lg:px-20 md:px-12 px-8 mx-auto;
+  }
+}

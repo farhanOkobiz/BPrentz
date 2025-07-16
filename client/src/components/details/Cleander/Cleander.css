@@ -1,0 +1,37 @@
+.date-range-wrapper .rdrCalendarWrapper {
+  width: 100% !important;
+  max-width: 100% !important;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center calendars horizontally */
+}
+
+/* Each calendar month gets 50% width on desktop */
+.date-range-wrapper .rdrMonth {
+  flex: 1 1 50%;
+  min-width: 300px;
+}
+
+/* Responsive: 1 month per row on smaller screens */
+@media (max-width: 768px) {
+  .date-range-wrapper .rdrMonth {
+    flex: 1 1 100%;
+    min-width: 100%;
+  }
+
+  .date-range-wrapper .rdrCalendarWrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* Optional: Add some padding around calendars on mobile */
+@media (max-width: 480px) {
+  .date-range-wrapper {
+    padding: 0 10px;
+  }
+}
+.rdrDateRangePickerWrapper {
+    user-select: none;
+    display: inline-flex;
+}
