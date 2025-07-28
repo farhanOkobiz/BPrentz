@@ -1,4 +1,4 @@
-import logo from "@/assets/logo/logo.jpg";
+import logo from "@/assets/logo/logo.jpeg";
 import Image from "next/image";
 const Loading = () => {
   return (

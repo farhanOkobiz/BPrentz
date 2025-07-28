@@ -79,7 +79,7 @@ export const verificationEmailTemplate = `
 
         <div class="footer">
             <p>Best regards,<br>
-            <strong>Homezay</strong><br>
+            <strong>BPrentz</strong><br>
             <a href="{{baseUrl}}">visite</a></p>
         </div>
     </div>

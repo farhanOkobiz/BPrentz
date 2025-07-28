@@ -8,7 +8,7 @@ const StepLayout: React.FC = () => {
       {/* Left Section */}
       <div className="flex-1 flex flex-col justify-center lg:pr-12">
         <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800 leading-tight">
-          It&apos;s easy to get started on <span className="text-primary">Homzystay</span>
+          It&apos;s easy to get started on <span className="text-primary">BPrentz</span>
         </h1>
         <p className="text-gray-600 text-lg mb-8">
           Just follow a few simple steps and your place will be ready to host
@@ -34,7 +34,7 @@ const StepLayout: React.FC = () => {
             Prepare to Welcome Guests
           </h2>
           <p className="text-gray-500 text-base">
-            A quick overview of how to publish your Homzystay listing.
+            A quick overview of how to publish your BPrentz listing.
           </p>
         </div>
 

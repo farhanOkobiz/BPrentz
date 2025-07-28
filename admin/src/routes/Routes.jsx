@@ -101,6 +101,7 @@ import Location from "../pages/Location";
 import ForgotPassword from "../pages/ForgotPassword";
 import ResetPasswordPage from "../pages/ResetPassword";
 import BannerManager from "../pages/BannerManager";
+import Parking from "../pages/Parking";
 
 const Routes = createBrowserRouter([
   {
@@ -317,6 +318,14 @@ const Routes = createBrowserRouter([
         element: (
           <RoleProtected allowedRoles={["admin", "listingVerificationManager"]}>
             <Rent />
+          </RoleProtected>
+        ),
+      },
+      {
+        path: "listing/parking",
+        element: (
+          <RoleProtected allowedRoles={["admin", "listingVerificationManager"]}>
+            <Parking />
           </RoleProtected>
         ),
       },

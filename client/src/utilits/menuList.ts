@@ -1,7 +1,5 @@
-import { useRentCategories } from "@/hooks/useRentCategories";
 
 export const useMenuList = () => {
-  const { rentCategories } = useRentCategories();
 
   return [
     {
@@ -10,46 +8,41 @@ export const useMenuList = () => {
       link: "/",
     },
     {
-      id: "02",
-      title: "Room",
-      link: "/rent",
-      dropdownItems: [
+      id: "property-listing",
+      title: "Property Listing",
+      link: "#", // We'll handle hover with custom component
+      isMultiLevel: true,
+      subItems: [
         {
-          key: "all",
-          label: "All Rents",
-          href: "/rent?category=all",
+          key: "rent",
+          label: "Rent",
+          children: [
+            { label: "Room", href: "/rent" },
+            { label: "Parking", href: "/parking" },
+          ],
         },
-        ...(rentCategories?.map((cat) => ({
-          key: cat?._id,
-          label: cat?.categoryName,
-          href: `/rent?category=${cat?._id}`,
-        })) || []),
+        {
+          key: "buy-sell",
+          label: "Buy/Sell",
+          children: [
+            { label: "Flat", href: "/flat" },
+            { label: "Land", href: "/land" },
+          ],
+        },
       ],
     },
     {
       id: "03",
-      title: "Flat",
-      link: "/flat",
-    },
-
-    {
-      id: "04",
-      title: "Land",
-      link: "/land",
-    },
-
-    {
-      id: "05",
       title: "About",
       link: "/about",
     },
     {
-      id: "06",
+      id: "04",
       title: "Blogs",
       link: "/blogs",
     },
     {
-      id: "07",
+      id: "05",
       title: "Contact",
       link: "/contact",
     },

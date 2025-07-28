@@ -120,7 +120,7 @@ const Flat: React.FC<FlatProps> = async ({ searchParams }) => {
 
     // Optimize tab configuration
     const tabClass =
-      "text-white bg-[#F2693C] !inline-block lg:px-4 px-2 py-1 lg:py-2 rounded lg:w-[60px] w-[50px]";
+      "text-white bg-secondary !inline-block lg:px-4 px-2 py-1 lg:py-2 rounded lg:w-[60px] w-[50px]";
     const items = [
       {
         key: "Flat",

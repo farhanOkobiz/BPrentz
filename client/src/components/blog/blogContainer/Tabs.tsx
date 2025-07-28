@@ -23,7 +23,7 @@ const Tabs = ({ tabs, activeTab, setActiveTab }: TabsProps) => {
               onClick={() => setActiveTab(tab)}
               className={`border
                 ${isSelected ? "border-primary bg-primary text-white" : "border-[#262626]/40 text-black"}
-                hover:border-primary hover:bg-primary hover:text-white
+                hover:border-secondary hover:bg-secondary hover:text-white
                 duration-300 rounded px-4 py-2 text-sm font-medium cursor-pointer
                 ${poppins.className}
               `}

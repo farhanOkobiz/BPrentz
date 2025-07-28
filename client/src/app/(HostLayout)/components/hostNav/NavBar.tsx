@@ -14,7 +14,7 @@ import {
 } from "react-icons/hi";
 import { Dropdown, Button, Drawer, message, MenuProps } from "antd";
 import { useMutation } from "@tanstack/react-query";
-import logo from "@/assets/logo/homzystay.png";
+import logo from "@/assets/logo/BPrentz.jpeg";
 import { poppins } from "@/app/font";
 import useAuth from "@/hooks/useAuth";
 import { AuthServices } from "@/services/auth/auth.service";
@@ -253,12 +253,12 @@ const NavBar = () => {
           <div className="flex items-center">
             <Image
               src={logo}
-              alt="HomzyStay"
+              alt="BPrentz"
               width={40}
               height={40}
               className="rounded"
             />
-            <span className="ml-3 text-lg font-semibold">HomzyStay</span>
+            <span className="ml-3 text-lg font-semibold">BPrentz</span>
           </div>
         }
         placement="left"

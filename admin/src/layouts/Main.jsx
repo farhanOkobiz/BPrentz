@@ -110,7 +110,7 @@ const Main = () => {
           width={300}
           className="h-screen shadow-lg"
           style={{
-            background: " #F15927",
+            background: "linear-gradient(90deg, #F59E42 0%, #000000 10%)",
             boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
             borderBottom: "1px solid #f5e7d1",
           }}
@@ -119,7 +119,7 @@ const Main = () => {
             className={`text-black mx-auto font-bold text-2xl text-center rounded-full mt-5 mb-5  ${
               collapsed
                 ? `w-[50px] h-[50px] leading-[50px]`
-                : `w-[90px] h-[90px] leading-[110px]`
+                : `w-[90px] h-[70px] leading-[110px]`
             }`}
           >
             <img src={logo} alt="Logo" className="rounded-full" />
@@ -141,7 +141,7 @@ const Main = () => {
         <Header
           className="w-full flex justify-between mx-0 px-0 items-center  "
           style={{
-            background: "linear-gradient(90deg, #F15927 0%, #F59E42 100%)",
+            background: "linear-gradient(90deg, #000000 0%, #DB9204 100%)",
             boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
             borderBottom: "1px solid #f5e7d1",
           }}

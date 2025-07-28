@@ -30,127 +30,105 @@ const RentCard: React.FC<Props> = ({ rent, linkPrefix }) => {
   const href = `/${linkPrefix}/${slug}`;
 
   return (
-    <div
-      className={`rounded shadow-sm hover:shadow-md group cursor-pointer border border-transparent hover:border-primary/30 duration-300 ${poppins.className}`}
+    <Link
+      href={href}
+      className={`block rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden ${poppins.className}`}
     >
-      <Link href={href}>
-        <div className="h-[280px] overflow-hidden relative group">
-          {coverImage && (
-            <Image
-              src={apiBaseUrl + coverImage}
-              alt={title}
-              priority
-              width={300}
-              height={300}
-              className="w-full h-full rounded-t object-cover transition-transform duration-700 group-hover:scale-110"
-            />
-          )}
-          <div className="absolute top-[-100%] left-0 w-full h-full bg-[#fff]/16 transition-all duration-700 group-hover:top-0"></div>
-        </div>
-      </Link>
-      <Link href={href}>
-        <div className="px-4 py-4">
-          <h2 className="line-clamp-1  font-medium text-base">{title}</h2>
-          <p className="flex items-center gap-2 mt-2">
-            <span className="p-1 bg-primary/10 text-primary rounded">
-              <PiMapPin className="text-lg" />
-            </span>
-            <span className="line-clamp-1 text-[#262626]/60 text-sm">
-              {location}
-            </span>
-          </p>
-          <div className=" mt-4 flex items-center0">
-            <span className="font-medium text-xl">৳ {price}</span>
-
-            <p>{status && <span>/night</span>}</p>
+      {/* IMAGE */}
+      <div className="relative w-full h-56 md:h-48 lg:h-56">
+        {coverImage ? (
+          <Image
+            src={apiBaseUrl + coverImage}
+            alt={title}
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            className="object-cover"
+            priority
+          />
+        ) : (
+          <div className="bg-gray-100 w-full h-full flex items-center justify-center text-gray-400">
+            No Image Available
           </div>
+        )}
+      </div>
 
-          <div className="flex items-center flex-wrap gap-2 my-2 text-sm text-[#262626]/60">
-            {floorPlan && (
-              <>
-                {floorPlan.bedroomCount > 0 && (
-                  <div className="flex items-center gap-2">
-                    <span>
-                      <MdOutlineKingBed />
-                    </span>
-                    <span>
-                      {floorPlan.bedroomCount} Bedroom
-                      {floorPlan.bedroomCount > 1 ? "s" : ""}
-                    </span>
-                  </div>
-                )}
-                {floorPlan.bathCount > 0 && (
-                  <div className="flex items-center gap-2">
-                    <span>
-                      <LiaBathSolid />
-                    </span>
-                    <span>
-                      {floorPlan.bathCount} Bath
-                      {floorPlan.bathCount > 1 ? "s" : ""}
-                    </span>
-                  </div>
-                )}
-                {floorPlan.bedCount > 0 && (
-                  <div className="flex items-center gap-2">
-                    <span>
-                      <LuBed />
-                    </span>
-                    <span>
-                      {floorPlan.bedCount} Bed
-                      {floorPlan.bedCount > 1 ? "s" : ""}
-                    </span>
-                  </div>
-                )}
-                {floorPlan.guestCount > 0 && (
-                  <div className="flex items-center gap-2">
-                    <span>
-                      <BsPeople />
-                    </span>
-                    <span>
-                      {floorPlan.guestCount} Guest
-                      {floorPlan.guestCount > 1 ? "s" : ""}
-                    </span>
-                  </div>
-                )}
+      {/* INFO CONTAINER */}
+      <div className="p-5 flex flex-col gap-3">
+        {/* Title and Location */}
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
+          <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">{title}</h3>
 
-                {floorPlan?.drawing == true && (
-                  <div className="flex items-center gap-1">
-                    <PiHouseLine />
+          <div className="flex items-center text-sm text-gray-600 mt-1 sm:mt-0">
+            <PiMapPin className="mr-1 text-primary" />
+            <span className="truncate max-w-[150px]">{location}</span>
+          </div>
+        </div>
 
-                    <span>
-                      {floorPlan.guestCount} Drawing
-                      {floorPlan.guestCount > 1 ? "s" : ""}
-                    </span>
-                  </div>
-                )}
+        {/* Price and Status */}
+        <div className="flex items-center justify-between text-primary font-bold text-xl">
+          <span>
+            ৳ {price}
+            {status && <span className="text-sm font-normal ml-1 text-gray-500">/ night</span>}
+          </span>
 
-                {floorPlan?.dinning == true && (
-                  <div className="flex items-center gap-1">
-                    <BsHouses />
+          {status && (
+            <span className="bg-primary/20 text-primary uppercase text-xs font-semibold rounded-full px-3 py-1 select-none">
+              {status}
+            </span>
+          )}
+        </div>
 
-                    <span>
-                      {floorPlan.guestCount} Dinning
-                      {floorPlan.guestCount > 1 ? "s" : ""}
-                    </span>
-                  </div>
-                )}
-
-                <div>
-                  {buildingYear && (
-                    <p className="flex item-center gap-1">
-                      <span>
-                        <BsCalendar2Date className="pt-1" />
-                      </span>
-                      <span> {buildingYear} Year</span>
-                    </p>
-                  )}
-                </div>
-              </>
+        {/* Floor Plan Details */}
+        {floorPlan && (
+          <div className="flex flex-wrap gap-4 text-gray-600 text-sm">
+            {floorPlan.bedroomCount > 0 && (
+              <div className="flex items-center gap-1" title="Bedrooms">
+                <MdOutlineKingBed className="text-primary" />
+                <span>{floorPlan.bedroomCount} Bedroom{floorPlan.bedroomCount > 1 ? "s" : ""}</span>
+              </div>
+            )}
+            {floorPlan.bathCount > 0 && (
+              <div className="flex items-center gap-1" title="Bathrooms">
+                <LiaBathSolid className="text-primary" />
+                <span>{floorPlan.bathCount} Bath{floorPlan.bathCount > 1 ? "s" : ""}</span>
+              </div>
+            )}
+            {floorPlan.bedCount > 0 && (
+              <div className="flex items-center gap-1" title="Beds">
+                <LuBed className="text-primary" />
+                <span>{floorPlan.bedCount} Bed{floorPlan.bedCount > 1 ? "s" : ""}</span>
+              </div>
+            )}
+            {floorPlan.guestCount > 0 && (
+              <div className="flex items-center gap-1" title="Guests">
+                <BsPeople className="text-primary" />
+                <span>{floorPlan.guestCount} Guest{floorPlan.guestCount > 1 ? "s" : ""}</span>
+              </div>
+            )}
+            {floorPlan.drawing && (
+              <div className="flex items-center gap-1" title="Drawing Room">
+                <PiHouseLine className="text-primary" />
+                <span>Drawing</span>
+              </div>
+            )}
+            {floorPlan.dinning && (
+              <div className="flex items-center gap-1" title="Dining Room">
+                <BsHouses className="text-primary" />
+                <span>Dining</span>
+              </div>
             )}
           </div>
-        </div>
-      </Link>
-    </div>
+        )}
+
+        {/* Building Year */}
+        {buildingYear && (
+          <div className="flex items-center text-gray-500 text-sm gap-1 mt-2">
+            <BsCalendar2Date />
+            <span>{buildingYear}</span>
+          </div>
+        )}
+      </div>
+    </Link>
   );
 };
 

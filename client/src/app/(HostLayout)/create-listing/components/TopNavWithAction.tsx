@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "antd";
-import logo from "@/assets/logo/homzystay.png";
+import logo from "@/assets/logo/BPrentz.jpeg";
 import Link from "next/link";
 
 const TopNavWithAction = () => {

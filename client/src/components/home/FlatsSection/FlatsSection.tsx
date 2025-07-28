@@ -14,8 +14,8 @@ const FlatsSection: React.FC<Props> = ({ flats }) => {
     <div className="Container pt-8">
       <div>
         <SectionTitle
-          title="Choose From Our Diverse Range of Flats"
-          subTitle="From individual stays to family getaways, our properties cater to all your accommodation needs."
+          title="Find Your Perfect Flat"
+          subTitle="Comfortable Living Spaces Tailored to Your Needs"
         />
       </div>
 
@@ -56,7 +56,7 @@ const FlatsSection: React.FC<Props> = ({ flats }) => {
       <div className="flex items-center justify-center md:py-8 pt-4 text-[#fff]">
         <Link href="/flat">
           <button
-            className={`bg-primary md:px-6 px-4 md:py-3 py-2  md:text-base text-sm rounded font-medium cursor-pointer  ${poppins.className}`}
+            className={`bg-secondary md:px-6 px-4 md:py-3 py-2  md:text-base text-sm rounded font-medium cursor-pointer  ${poppins.className}`}
           >
             Load more..
           </button>

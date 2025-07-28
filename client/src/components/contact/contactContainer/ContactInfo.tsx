@@ -22,23 +22,10 @@ const ContactInfo = () => {
           <PhoneOutlined className="text-2xl text-primary mt-1" />
           <div>
             <a
-              href="tel:01786330011"
+              href="tel:+8801904108303"
               className="text-gray-700 font-medium hover:underline"
             >
-              01786330011
-            </a>
-          </div>
-        </div>
-
-        {/* Phone 2 */}
-        <div className="flex items-start gap-4">
-          <PhoneOutlined className="text-2xl text-primary mt-1" />
-          <div>
-            <a
-              href="tel:01786330022"
-              className="text-gray-700 font-medium hover:underline"
-            >
-              01786330022
+              +880 - 1904108303
             </a>
           </div>
         </div>
@@ -48,10 +35,10 @@ const ContactInfo = () => {
           <MailOutlined className="text-2xl text-primary mt-1" />
           <div>
             <a
-              href="mailto:info@fatihatravels1.com"
+              href="mailto:sorower.jahan@okobiz.com"
               className="text-gray-700 font-medium hover:underline"
             >
-              info@fatihatravels1.com
+              sorower.jahan@okobiz.com
             </a>
           </div>
         </div>
@@ -66,8 +53,7 @@ const ContactInfo = () => {
               rel="noopener noreferrer"
               className="text-gray-700 font-medium hover:underline"
             >
-              Ground Floor, Hazi Ashraf Shopping Complex, Hemayetpur, Savar,
-              Dhaka, Bangladesh
+              213/1, 60 Feet Kamal Soroni Rd, Dhaka 1216
             </a>
           </div>
         </div>

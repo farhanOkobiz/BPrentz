@@ -33,8 +33,8 @@ const Login = () => {
           <img src={logo} alt="Logo" className="rounded-full" />
         </div>
         <div className="md:w-[500px] h-full  p-10 rounded-md bg-white shadow-lg">
-          <h1 className="text-3xl my-2 mb-8 font-bold text-center !text-[#F15927]">
-            Homzystay
+          <h1 className="text-3xl my-2 mb-8 font-bold text-center !text-black">
+            Bprentz
           </h1>
           <Form
             name="normal_login"
@@ -71,7 +71,7 @@ const Login = () => {
                 className="w-full custom-button text-white font-semibold py-2 rounded transition-all duration-300 shadow-md"
                 style={{
                   background:
-                    "linear-gradient(90deg, #F15927 0%, #F59E42 100%)",
+                    "linear-gradient(90deg, #000000 0%, #FFA500 100%)",
                   border: "none",
                 }}
               >

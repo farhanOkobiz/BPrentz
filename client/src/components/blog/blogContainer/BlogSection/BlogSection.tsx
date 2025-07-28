@@ -19,7 +19,7 @@ const BlogSection: React.FC<Props> = ({ blogs }) => {
       <div>
         <SectionTitle
           title="Read Our Recent Blogs"
-          subTitle="From individual stays to family getaways, our properties cater to all your accommodation needs."
+          subTitle="Tips, Stories, and Guides to Inspire Your Next Stay"
         />
       </div>
       <div>

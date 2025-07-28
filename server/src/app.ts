@@ -59,6 +59,8 @@ import {
   LandBookingRoutes,
   BookingRentRoutes,
   BlockDateRentRoutes,
+  Parking,
+  ParkingBookingRoutes,
   // PaymentRoutes,
 } from './routes/v1';
 
@@ -80,10 +82,12 @@ app.use(baseUrl.v1, Amenities);
 app.use(baseUrl.v1, Location);
 app.use(baseUrl.v1, Rent);
 app.use(baseUrl.v1, Flat);
+app.use(baseUrl.v1, Parking);
 app.use(baseUrl.v1, Land);
 app.use(baseUrl.v1, Contacts);
 app.use(baseUrl.v1, RentBookingRoutes);
 app.use(baseUrl.v1, FlatBookingRoutes);
+app.use(baseUrl.v1, ParkingBookingRoutes);
 app.use(baseUrl.v1, LandBookingRoutes);
 app.use(baseUrl.v1, BookingRentRoutes);
 app.use(baseUrl.v1,BlockDateRentRoutes)

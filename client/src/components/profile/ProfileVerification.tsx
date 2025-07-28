@@ -52,7 +52,7 @@ const ProfileVerification = () => {
                 Verify your identity
               </div>
               <div className="text-gray-700 mt-5 text-sm font-semibold">
-                Before you book or host on HomzyStay, you need to complete this
+                Before you book or host on BPrentz, you need to complete this
                 step.
               </div>
               <div className="relative group p-2 border border-gray-600 rounded-lg mt-5 transition-transform transform hover:scale-105 hover:border-blue-500 duration-300">

@@ -6,7 +6,7 @@ import { ReactNode } from "react";
 import Providers from "@/providers/Providers";
 
 export const metadata: Metadata = {
-  title: "Homzystay",
+  title: "BPrentz",
   description:
     "Rental is one of the best property dealing website in local market of Bangladesh",
 };

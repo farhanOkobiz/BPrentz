@@ -20,7 +20,7 @@ const ChooseSection: React.FC<Props> = ({ chooses }) => {
       <div>
         <SectionTitle
           title="Why Choose Us"
-          subTitle="From individual stays to family getaways, our properties cater to all your accommodation needs."
+          subTitle="Why We’re the Right Choice for Your Perfect Stay"
         />
       </div>
       <div>

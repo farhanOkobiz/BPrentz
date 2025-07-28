@@ -1,5 +1,5 @@
 import Image from "next/image";
-import FooterImg from "@/assets/logo/homzystay.png";
+import FooterImg from "@/assets/logo/BPrentz.jpeg";
 import Link from "next/link";
 import { poppins } from "@/app/font";
 import DownFooter from "./DownFooter/DownFooter";
@@ -34,13 +34,16 @@ const footerLinks = [
     links: [
       {
         label: "Instagram",
-        href: "https://www.instagram.com/fatiha.travels/?hl=en",
+        href: "",
       },
       {
         label: "Facebook",
-        href: "https://www.facebook.com/fatihatravelsandtourism/",
+        href: "",
       },
-      { label: "Youtube", href: "youtube.com/@FatihaTravelsTourism" },
+      {
+        label: "Youtube",
+        href: ""
+      },
     ],
   },
   {
@@ -66,7 +69,7 @@ const FooterContent = () => {
             className="object-contain md:ml-0 ml-[-16px]"
           />
           <p className="mt-4 text-sm text-gray-500 max-w-xs">
-            Homezay stay helps you explore, book, and enjoy stays around the
+            BPrentz helps you explore, book, and enjoy stays around the
             world with confidence and ease.
           </p>
         </div>
@@ -108,7 +111,7 @@ const FooterContent = () => {
       <div className="mt-12 border-t pt-6">
         <div className="text-center text-sm text-gray-500">
           <p>
-            © {new Date().getFullYear()} <span className="font-semibold text-gray-700">Homzystay.com</span> — All rights reserved.
+            © {new Date().getFullYear()} <span className="font-semibold text-gray-700">BPrentz.com</span> — All rights reserved.
           </p>
           <p className="mt-1">
             Developed by{" "}

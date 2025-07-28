@@ -5,7 +5,7 @@ import Link from "next/link";
 import { HiOutlineUser } from "react-icons/hi";
 import { Dropdown, message } from "antd";
 import { useMutation } from "@tanstack/react-query";
-import logo from "@/assets/logo/homzystay.png";
+import logo from "@/assets/logo/BPrentz.jpeg";
 import { useMenuList } from "@/utilits/menuList";
 import { poppins } from "@/app/font";
 import SignupModal from "@/components/modals/SignUpModal";
@@ -15,6 +15,7 @@ import { AuthServices } from "@/services/auth/auth.service";
 import ChangePasswordModal from "@/components/modals/ChangePasswordModal";
 import { usePathname } from "next/navigation";
 import { ProfileServices } from "@/services/profile/profile.services";
+import PropertyListingDropdown from "../PropertyListingDropdown/PropertyListingDropdown";
 
 
 const { processLogout } = AuthServices;
@@ -145,13 +146,11 @@ const Navbar = () => {
         <div className="Container py-2 md:py-2">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link href="/" className="w-[140px] md:w-[180px]">
+            <Link href="/" className="w-[60px] md:w-[80px]">
               <Image
                 src={logo}
                 alt="logo"
-                width={160}
-                height={160}
-                className="w-full h-full"
+                className="w-full h-full rounded-lg"
               />
             </Link>
 
@@ -159,6 +158,18 @@ const Navbar = () => {
             <div className="lg:flex hidden items-center justify-center xl:gap-8 gap-6">
               {menuList?.map((menu) => {
                 const isActive = pathname === menu.link;
+
+                if (menu.isMultiLevel && menu.id === "property-listing") {
+                  return (
+                    <li
+                      key={menu.id}
+                      className={`relative list-none text-base font-medium cursor-pointer ${poppins.className} text-gray-700 transition-all duration-300 ease-in-out group`}
+                    >
+                      <PropertyListingDropdown />
+                    </li>
+                  );
+                }
+
                 return (
                   <Link href={menu.link} key={menu.id}>
                     <li

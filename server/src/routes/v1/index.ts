@@ -15,10 +15,12 @@ import SubCategory from "./subCategory.routes";
 import Amenities from "./amenities.routes";
 import Location from "./location.routes";
 import Rent from "./rent.routes";
+import Parking from "./parking.routes";
 import Flat from "./flat.routes";
 import Land from "./land.routes";
 import Contacts from "./contacts.routes";
 import RentBookingRoutes from "./rentBooking.routes"
+import ParkingBookingRoutes from "./parkingBooking.routes"
 import FlatBookingRoutes from "./flatBooking.routes"
 import LandBookingRoutes from "./LandBookingRoutes.routes"
 import BookingRentRoutes from "./booking.routes";
@@ -43,10 +45,12 @@ export {
   Amenities,
   Location,
   Rent,
+  Parking,
   Flat,
   Land,
   Contacts,
   RentBookingRoutes,
+  ParkingBookingRoutes,
   FlatBookingRoutes,
   LandBookingRoutes,
   BookingRentRoutes,

@@ -83,7 +83,7 @@ const LoginModal = ({ open, onClose }: LoginModalProps) => {
       <Modal
         title={
           <div className="pb-4 border-b border-gray-200 text-center text-lg font-semibold">
-            Welcome to HomZay Stay
+            Welcome to BPrentz
           </div>
         }
         open={open}

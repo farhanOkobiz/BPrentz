@@ -45,7 +45,7 @@ export default function VideoUploadPage() {
             {contextHolder}
             <div className="w-full max-w-2xl space-y-6 px-4 mx-auto">
                 <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-2 text-center text-primary">
-                    Add a Video Tour (Optional)
+                    Add a Video Tour
                 </h2>
                 <p className="text-base md:text-lg text-gray-600 font-normal tracking-wide mb-6 text-center">
                     Share a YouTube video link to give guests a better feel for your place.

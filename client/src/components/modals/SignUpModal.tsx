@@ -59,7 +59,7 @@ const SignupModal = ({ open, onClose }: SignupModalProps) => {
       <Modal
         title={
           <div className="pb-4 border-b border-gray-200 text-start text-lg font-semibold">
-            Welcome to HomZay Stay
+            Welcome to BPrentz
           </div>
         }
         open={open}
@@ -176,7 +176,7 @@ const SignupModal = ({ open, onClose }: SignupModalProps) => {
                   className="text-xs text-gray-500 leading-snug select-none"
                 >
                   By selecting <span className="font-medium">Continue</span>, I
-                  agree to HomZy Stay&apos;s{" "}
+                  agree to BPrentz&apos;s{" "}
                   <a
                     href="/terms-condition"
                     className="text-blue-500 underline"

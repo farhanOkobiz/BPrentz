@@ -23,6 +23,8 @@ import { getAllChoose } from "@/services/choose";
 import { getAllFlats } from "@/services/flats";
 import { getAllLands } from "@/services/land";
 import { getAllRents } from "@/services/rents";
+import { getAllParkings } from "@/services/parking";
+import ParkingSection from "@/components/home/ParkingSection/ParkingSection";
 
 const HomePage = async () => {
   const [
@@ -30,6 +32,7 @@ const HomePage = async () => {
     { data: rents },
     { data: flats },
     { data: lands },
+    { data: parkings },
     { data: blogs },
     { data: chooses },
   ] = await Promise.all([
@@ -37,6 +40,7 @@ const HomePage = async () => {
     getAllRents({ status: "published" }),
     getAllFlats({ status: "published" }),
     getAllLands({ status: "published" }),
+    getAllParkings({ status: "published" }),
     getAllBlogs(),
     getAllChoose(),
   ]);
@@ -56,6 +60,7 @@ const HomePage = async () => {
       <RentSection rents={rents} />
       <FlatsSection flats={flats} />
       <LandSection lands={lands} />
+      <ParkingSection parkings={parkings} />
 
       {/* <Suspense fallback={<div>Loading blogs...</div>}> */}
       <BlogSection blogs={blogs} />

@@ -38,6 +38,7 @@ export const menuItems = [
     icon: FaList,
     children: [
       { key: "listing/rent", label: "Rents", icon: FaHome },
+      { key: "listing/parking", label: "Parking", icon: FaHome },
       { key: "listing/flat", label: "Flat", icon: FaBuilding },
       { key: "listing/land", label: "Land", icon: FaTree },
     ],
