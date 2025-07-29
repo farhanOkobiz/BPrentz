@@ -5,12 +5,12 @@ import { ICategory } from "@/types";
 import { poppins } from "@/app/font";
 
 interface Props {
-  rentCategories: ICategory[];
+  parkingCategories: ICategory[];
   selectedCategoryId: string;
 }
 
 const ParkingCategory: React.FC<Props> = ({
-  rentCategories,
+  parkingCategories,
   selectedCategoryId,
 }) => {
   const router = useRouter();
@@ -24,12 +24,12 @@ const ParkingCategory: React.FC<Props> = ({
       newParams.set("category", categoryId);
     }
 
-    router.push(`/rent?${newParams.toString()}`);
+    router.push(`/parking?${newParams.toString()}`);
   };
 
   const allCategories = [
-    { _id: "all", categoryName: "All Rents" },
-    ...rentCategories,
+    { _id: "all", categoryName: "All Parkings" },
+    ...parkingCategories,
   ];
 
   return (

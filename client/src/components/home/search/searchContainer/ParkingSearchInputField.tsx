@@ -1,34 +1,87 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef, useState } from "react";
 import { GoSearch } from "react-icons/go";
 import { VscLocation } from "react-icons/vsc";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import dayjs from "dayjs";
+import ParkingSearchModel from "@/components/modals/ParkingSearchModel";
 import { apiBaseUrl } from "@/config/config";
+interface ParkingSearchInputFieldProps {
+  params?: {
+    location?: string;
+    checkinDate?: string;
+    checkoutDate?: string;
+    bedroomCount?: string;
+    bathCount?: string;
+    bedCount?: string;
+    guestCount?: string;
+  };
+}
 
-const ParkingSearchInputField = ({ params }) => {
-  const [location, setLocation] = useState("");
-  const [date, setDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
-  const [vehicleType, setVehicleType] = useState("");
-  const [locationSuggestions, setLocationSuggestions] = useState([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
+const ParkingSearchInputField: React.FC<ParkingSearchInputFieldProps> = ({ params }) => {
+  const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const debounceRef = useRef(null);
+  const searchParams = useSearchParams();
 
-  const handleSearch = (e) => {
+  const [locationSuggestions, setLocationSuggestions] = useState<{ _id: string; location: string }[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
+
+
+  console.log("Loading state:", loading);
+
+  // State initialization from URL params
+  const [location, setLocation] = useState(params?.location || "");
+  const [checkinDate, setCheckinDate] = useState(
+    params?.checkinDate ? dayjs(params.checkinDate) : null
+  );
+  const [checkoutDate, setCheckoutDate] = useState(
+    params?.checkoutDate ? dayjs(params.checkoutDate) : null
+  );
+  const [guestCounts, setGuestCounts] = useState({
+    bedroom: params?.bedroomCount ? parseInt(params.bedroomCount) : 0,
+    bathCount: params?.bathCount ? parseInt(params.bathCount) : 0,
+    bedCount: params?.bedCount ? parseInt(params.bedCount) : 0,
+    guestCount: params?.guestCount ? parseInt(params.guestCount) : 0,
+  });
+
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-    const query = new URLSearchParams();
-    if (location) query.append("location", location);
-    if (date) query.append("date", date);
-    if (startTime) query.append("start", startTime);
-    if (endTime) query.append("end", endTime);
-    if (vehicleType) query.append("vehicle", vehicleType);
-    router.push(`/parking?${query.toString()}`);
+    setLoading(true);
+
+    const newParams = new URLSearchParams(searchParams.toString());
+
+    // Update location
+    if (location) newParams.set("location", location);
+    else newParams.delete("location");
+
+    // Update dates
+    if (checkinDate) newParams.set("checkinDate", checkinDate.format("YYYY-MM-DD"));
+    else newParams.delete("checkinDate");
+
+    if (checkoutDate) newParams.set("checkoutDate", checkoutDate.format("YYYY-MM-DD"));
+    else newParams.delete("checkoutDate");
+
+    // Update guest counts
+    if (guestCounts.bedroom > 0) newParams.set("bedroomCount", guestCounts.bedroom.toString());
+    else newParams.delete("bedroomCount");
+
+    if (guestCounts.bathCount > 0) newParams.set("bathCount", guestCounts.bathCount.toString());
+    else newParams.delete("bathCount");
+
+    if (guestCounts.bedCount > 0) newParams.set("bedCount", guestCounts.bedCount.toString());
+    else newParams.delete("bedCount");
+
+    if (guestCounts.guestCount > 0) newParams.set("guestCount", guestCounts.guestCount.toString());
+    else newParams.delete("guestCount");
+
+    await router.push(`/parking?${newParams.toString()}`);
+    setLoading(false);
   };
 
-  const handleLocationChange = (e) => {
+  const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setLocation(value);
 
@@ -52,117 +105,229 @@ const ParkingSearchInputField = ({ params }) => {
     }
   };
 
-  const handleSuggestionClick = (loc) => {
-    setLocation(loc);
-    setShowSuggestions(false);
-  };
-
   return (
-    <form onSubmit={handleSearch} className="w-full p-4 bg-white shadow-sm rounded-md">
-      <div className="lg:flex hidden flex-row items-end gap-4">
-        <div className="w-full md:w-1/5 bg-[#F5F5F5] border border-transparent hover:border-primary focus-within:border-primary focus-within:ring-1 focus-within:ring-primary rounded-md p-2 relative">
-          <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
-            Location
-          </label>
-          <input
-            type="text"
-            name="location"
-            id="location"
-            placeholder="Enter location"
-            className="w-full px-4 py-2 border-0 rounded-md focus:outline-none"
-            value={location}
-            onChange={handleLocationChange}
-            onFocus={() => locationSuggestions.length > 0 && setShowSuggestions(true)}
-            autoComplete="off"
-          />
-          {showSuggestions && locationSuggestions.length > 0 && (
-            <ul className="absolute left-0 right-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-56 overflow-y-auto z-20">
-              {locationSuggestions.map((item) => (
-                <li
-                  key={item._id}
-                  className="px-4 py-2 cursor-pointer hover:bg-primary/10 hover:text-primary transition-colors duration-150"
-                  onClick={() => handleSuggestionClick(item.location)}
-                >
-                  <span className="flex items-center gap-2">
-                    <VscLocation className="text-primary" />
-                    {item.location}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+    <div>
+      <form onSubmit={handleSearch} className="w-full p-4 bg-white shadow-sm rounded-md  mb-5">
 
-        <div className="w-full md:w-1/5 bg-[#F5F5F5] border border-transparent hover:border-primary focus-within:border-primary focus-within:ring-1 focus-within:ring-primary rounded-md p-2">
-          <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-1">
-            Date
-          </label>
-          <input
-            type="date"
-            name="date"
-            id="date"
-            className="w-full px-4 py-2 border-0 rounded-md focus:outline-none"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
-        </div>
-
-        <div className="w-full md:w-1/5 bg-[#F5F5F5] border border-transparent hover:border-primary focus-within:border-primary focus-within:ring-1 focus-within:ring-primary rounded-md p-2">
-          <label htmlFor="startTime" className="block text-sm font-medium text-gray-700 mb-1">
-            Start Time
-          </label>
-          <input
-            type="time"
-            name="startTime"
-            id="startTime"
-            className="w-full px-4 py-2 border-0 rounded-md focus:outline-none"
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
-          />
-        </div>
-
-        <div className="w-full md:w-1/5 bg-[#F5F5F5] border border-transparent hover:border-primary focus-within:border-primary focus-within:ring-1 focus-within:ring-primary rounded-md p-2">
-          <label htmlFor="endTime" className="block text-sm font-medium text-gray-700 mb-1">
-            End Time
-          </label>
-          <input
-            type="time"
-            name="endTime"
-            id="endTime"
-            className="w-full px-4 py-2 border-0 rounded-md focus:outline-none"
-            value={endTime}
-            onChange={(e) => setEndTime(e.target.value)}
-          />
-        </div>
-
-        <div className="w-full md:w-1/5 bg-[#F5F5F5] border border-transparent hover:border-primary focus-within:border-primary focus-within:ring-1 focus-within:ring-primary rounded-md p-2">
-          <label htmlFor="vehicleType" className="block text-sm font-medium text-gray-700 mb-1">
-            Vehicle Type
-          </label>
-          <select
-            name="vehicleType"
-            id="vehicleType"
-            className="w-full px-4 py-2 border-0 rounded-md bg-[#F5F5F5] focus:outline-none"
-            value={vehicleType}
-            onChange={(e) => setVehicleType(e.target.value)}
+        <div className="lg:hidden flex items-center justify-between group">
+          <p
+            onClick={() => setOpenModal(true)}
+            className="flex items-center gap-1 font-medium sm:text-base text-[13px] text-[#262626]/40"
           >
-            <option value="">Select Type</option>
-            <option value="car">Car</option>
-            <option value="bike">Bike</option>
-            <option value="truck">Truck</option>
-          </select>
+            <span className="text-primary">
+              <VscLocation />
+            </span>{" "}
+            <span>Search for rentals</span>
+          </p>
+          <p
+            onClick={() => setOpenModal(true)}
+            className="flex items-center gap-1 text-[#262626]/50 uppercase font-medium group-hover:text-primary duration-300"
+          >
+            <span>
+              <GoSearch />
+            </span>
+            <span className="tracking-wide cursor-pointer">Search</span>
+          </p>
         </div>
 
-        <div className="w-full md:w-auto flex items-end h-full">
-          <button
-            type="submit"
-            className="w-full md:w-auto cursor-pointer px-6 md:py-[25px] bg-primary font-extrabold !text-white rounded-md hover:bg-primary/90 transition"
-          >
-            Search
-          </button>
+        {/* Desktop View */}
+        <div className="lg:flex flex-col md:flex-row items-center justify-between gap-4 hidden">
+          <div className="grid grid-cols-4 gap-4 w-full">
+
+            <div className="w-full bg-[#F5F5F5] border border-transparent hover:border-primary focus-within:border-primary focus-within:ring-1 focus-within:ring-primary rounded-md p-2 relative">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Location
+              </label>
+              <input
+                type="text"
+                placeholder="Where to?"
+                className="w-full px-4 py-2 border-0 rounded-md focus:outline-none bg-[#F5F5F5]"
+                value={location}
+                onChange={handleLocationChange}
+                onFocus={() => locationSuggestions.length > 0 && setShowSuggestions(true)}
+                autoComplete="off"
+              />
+              {/* Suggestions Dropdown */}
+              {showSuggestions && locationSuggestions.length > 0 && (
+                <ul className="absolute left-0 right-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-56 overflow-y-auto animate-fadeIn z-20">
+                  {locationSuggestions.map((item) => (
+                    <li
+                      key={item._id}
+                      className="px-4 py-2 cursor-pointer hover:bg-primary/10 hover:text-primary transition-colors duration-150"
+                      onClick={() => {
+                        setLocation(item.location);
+                        setShowSuggestions(false);
+                      }}
+                    >
+                      <span className="flex items-center gap-2">
+                        <VscLocation className="text-primary" />
+                        {item.location}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            {/* Check-in Date */}
+            <div className="w-full bg-[#F5F5F5] border border-transparent hover:border-primary focus-within:border-primary focus-within:ring-1 focus-within:ring-primary rounded-md p-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Check-in
+              </label>
+              <input
+                type="date"
+                className="w-full px-4 py-2 border-0 rounded-md focus:outline-none bg-[#F5F5F5]"
+                value={checkinDate?.format("YYYY-MM-DD") || ""}
+                onChange={(e) => setCheckinDate(e.target.value ? dayjs(e.target.value) : null)}
+              />
+            </div>
+
+            {/* Check-out Date */}
+            <div className="w-full bg-[#F5F5F5] border border-transparent hover:border-primary focus-within:border-primary focus-within:ring-1 focus-within:ring-primary rounded-md p-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Check-out
+              </label>
+              <input
+                type="date"
+                className="w-full px-4 py-2 border-0 rounded-md focus:outline-none bg-[#F5F5F5]"
+                value={checkoutDate?.format("YYYY-MM-DD") || ""}
+                onChange={(e) => setCheckoutDate(e.target.value ? dayjs(e.target.value) : null)}
+              />
+            </div>
+
+            {/* More Options Toggle */}
+            {/* <button
+              type="button"
+              onClick={toggleMoreOptions}
+              className="w-full h-full flex items-center justify-center bg-[#F5F5F5] border border-transparent hover:border-primary focus:border-primary focus:ring-1 focus:ring-primary rounded-md transition-colors duration-200 cursor-pointer"
+            >
+              <label className="text-sm font-medium text-gray-700 cursor-pointer">
+                {showMoreOptions ? "Less Options" : "More Options"}
+              </label>
+            </button> */}
+
+            {/* Additional Options */}
+            {/* {showMoreOptions && (
+              <>
+                <div className="w-full bg-[#F5F5F5] border border-transparent hover:border-primary focus:border-primary focus:ring-1 focus:ring-primary rounded-md p-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Bedrooms
+                  </label>
+                  <GuestSelector
+                    type="bedroom"
+                    count={guestCounts.bedroom}
+                    onChange={(count) =>
+                      handleGuestCountChange({ ...guestCounts, bedroom: count })
+                    }
+                  />
+                </div>
+
+                <div className="w-full bg-[#F5F5F5] border border-transparent hover:border-primary focus:border-primary focus:ring-1 focus:ring-primary rounded-md p-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Bathrooms
+                  </label>
+                  <GuestSelector
+                    type="bathCount"
+                    count={guestCounts.bathCount}
+                    onChange={(count) =>
+                      handleGuestCountChange({ ...guestCounts, bathCount: count })
+                    }
+                  />
+                </div>
+
+                <div className="w-full bg-[#F5F5F5] border border-transparent hover:border-primary focus:border-primary focus:ring-1 focus:ring-primary rounded-md p-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Beds
+                  </label>
+                  <GuestSelector
+                    type="bedCount"
+                    count={guestCounts.bedCount}
+                    onChange={(count) =>
+                      handleGuestCountChange({ ...guestCounts, bedCount: count })
+                    }
+                  />
+                </div>
+
+                <div className="w-full bg-[#F5F5F5] border border-transparent hover:border-primary focus:border-primary focus:ring-1 focus:ring-primary rounded-md p-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Guests
+                  </label>
+                  <GuestSelector
+                    type="guestCount"
+                    count={guestCounts.guestCount}
+                    onChange={(count) =>
+                      handleGuestCountChange({ ...guestCounts, guestCount: count })
+                    }
+                  />
+                </div>
+              </>
+            )} */}
+          </div>
+
+          {/* Search Button */}
+          <div className="w-full md:w-auto flex items-end h-full">
+            <button
+              type="submit"
+              className="w-full md:w-auto cursor-pointer px-6 md:py-[25px] bg-primary font-extrabold !text-white rounded-md hover:bg-primary/90 transition flex items-center justify-center gap-2"
+              disabled={loading}
+            >
+              {loading ? "Searching..." : "Search"}
+            </button>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+
+      {/* Mobile Modal */}
+      {openModal && (
+        <ParkingSearchModel
+          onClose={() => setOpenModal(false)}
+          initialValues={{
+            location,
+            checkinDate,
+            checkoutDate,
+            ...guestCounts
+          }}
+          loading={loading}
+          onSearch={async (values) => {
+            setLocation(values.location);
+            setCheckinDate(values.checkinDate);
+            setCheckoutDate(values.checkoutDate);
+            setGuestCounts({
+              bedroom: values.bedroom,
+              bathCount: values.bathCount,
+              bedCount: values.bedCount,
+              guestCount: values.guestCount
+            });
+            setLoading(true);
+            const newParams = new URLSearchParams(searchParams.toString());
+
+            if (values.location) newParams.set("location", values.location);
+            else newParams.delete("location");
+
+            if (values.checkinDate) newParams.set("checkinDate", values.checkinDate.format("YYYY-MM-DD"));
+            else newParams.delete("checkinDate");
+
+            if (values.checkoutDate) newParams.set("checkoutDate", values.checkoutDate.format("YYYY-MM-DD"));
+            else newParams.delete("checkoutDate");
+
+            if (values.bedroom > 0) newParams.set("bedroomCount", values.bedroom.toString());
+            else newParams.delete("bedroomCount");
+
+            if (values.bathCount > 0) newParams.set("bathCount", values.bathCount.toString());
+            else newParams.delete("bathCount");
+
+            if (values.bedCount > 0) newParams.set("bedCount", values.bedCount.toString());
+            else newParams.delete("bedCount");
+
+            if (values.guestCount > 0) newParams.set("guestCount", values.guestCount.toString());
+            else newParams.delete("guestCount");
+
+            await router.push(`/parking?${newParams.toString()}`);
+            setLoading(false);
+          }}
+        />
+      )}
+    </div>
   );
 };
 

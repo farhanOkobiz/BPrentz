@@ -9,6 +9,7 @@ import FlatsSection from "@/components/home/FlatsSection/FlatsSection";
 import LandSection from "@/components/home/LandSection/LandSection";
 import BlogSection from "@/components/blog/blogContainer/BlogSection/BlogSection";
 import ChooseSection from "@/components/home/ChooseSection/ChooseSection";
+import ParkingSection from "@/components/home/ParkingSection/ParkingSection";
 
 // const BlogSection = dynamic(
 //   () => import("@/components/blog/blogContainer/BlogSection/BlogSection")
@@ -24,7 +25,7 @@ import { getAllFlats } from "@/services/flats";
 import { getAllLands } from "@/services/land";
 import { getAllRents } from "@/services/rents";
 import { getAllParkings } from "@/services/parking";
-import ParkingSection from "@/components/home/ParkingSection/ParkingSection";
+
 
 const HomePage = async () => {
   const [

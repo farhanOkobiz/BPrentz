@@ -6,13 +6,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { IRent } from "@/types";
 import RentCard from "@/components/card/RentCard/RentCard";
 
-interface RentListProps {
-  rents: IRent[];
+interface ParkingListProps {
+  parkings: IRent[];
   total: number;
   currentPage: number;
 }
 
-const ParkingList: React.FC<RentListProps> = ({ rents, total, currentPage }) => {
+const ParkingList: React.FC<ParkingListProps> = ({ parkings, total, currentPage }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pageSize = 8;
@@ -20,14 +20,14 @@ const ParkingList: React.FC<RentListProps> = ({ rents, total, currentPage }) => 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams?.toString());
     params.set("page", page.toString());
-    router.push(`/rent?${params.toString()}`);
+    router.push(`/parking?${params.toString()}`);
   };
 
   return (
     <div className="mt-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {rents.map((rent) => (
-          <RentCard key={rent._id} rent={rent} linkPrefix="rent" />
+        {parkings.map((parking) => (
+          <RentCard key={parking._id} rent={parking} linkPrefix="parking" />
         ))}
       </div>
 

@@ -49,6 +49,7 @@ export const menuItems = [
     icon: FaBookmark,
     children: [
       { key: "booking/rent", label: "Rent", icon: FaHome },
+      { key: "booking/parking", label: "Parking", icon: FaHome },
       { key: "booking/land", label: "Land", icon: FaBuilding },
       { key: "booking/flatBook", label: "Flat", icon: FaTree },
     ],

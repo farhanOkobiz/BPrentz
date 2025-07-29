@@ -102,6 +102,7 @@ import ForgotPassword from "../pages/ForgotPassword";
 import ResetPasswordPage from "../pages/ResetPassword";
 import BannerManager from "../pages/BannerManager";
 import Parking from "../pages/Parking";
+import ParkingBook from "../pages/ParkingBook";
 
 const Routes = createBrowserRouter([
   {
@@ -337,6 +338,15 @@ const Routes = createBrowserRouter([
           <RoleProtected allowedRoles={["admin"]}>
             {/* <Land /> */}
             <RentBook />
+          </RoleProtected>
+        ),
+      },
+      {
+        path: "/booking/parking",
+        element: (
+          <RoleProtected allowedRoles={["admin"]}>
+            {/* <Land /> */}
+            <ParkingBook />
           </RoleProtected>
         ),
       },

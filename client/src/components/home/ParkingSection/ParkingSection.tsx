@@ -28,7 +28,7 @@ const ParkingSection: React.FC<Props> = ({ parkings }) => {
         />
       </div>
 
-      <div className="mt-8 ">
+      <div className="mt-8">
         {/* {rents?.slice(0, 8).map((rent) => (
           <RentCard key={rent._id} rent={rent} linkPrefix="rent"></RentCard>
         ))} */}

@@ -19,6 +19,10 @@ export const useMenuList = () => {
           children: [
             { label: "Room", href: "/rent" },
             { label: "Parking", href: "/parking" },
+            { label: "Flat", href: "/flat" },
+            { label: "Shop /Commercial", href: "/shop" },
+            { label: "Office", href: "/office" },
+            { label: "Shed /Factory", href: "/factory" },
           ],
         },
         {
@@ -27,6 +31,8 @@ export const useMenuList = () => {
           children: [
             { label: "Flat", href: "/flat" },
             { label: "Land", href: "/land" },
+            { label: "Shop /Commercial", href: "/shop" },
+            { label: "Common Space", href: "/common-space" },
           ],
         },
       ],

@@ -5,11 +5,11 @@ import { Tabs } from "antd";
 import { SearchParams } from "next/dist/server/request/search-params";
 import ParkingSearchInputField from "@/components/home/search/searchContainer/ParkingSearchInputField";
 
-interface ClientRentTabsProps {
+interface ClientParkingTabsProps {
   params: SearchParams;
 }
 
-export default function ClientParkingTabs({ params }: ClientRentTabsProps) {
+export default function ClientParkingTabs({ params }: ClientParkingTabsProps) {
   const tabClass =
     "text-white bg-secondary !inline-block lg:px-4 px-2 py-1 lg:py-2 rounded";
 
@@ -21,5 +21,5 @@ export default function ClientParkingTabs({ params }: ClientRentTabsProps) {
     },
   ];
 
-  return <Tabs defaultActiveKey="rent" type="card" items={items} />;
+  return <Tabs defaultActiveKey="parking" type="card" items={items} />;
 }

@@ -14,12 +14,12 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
 import { baseUrl } from "../constants/env";
-import rentServices from "../services/rentBook.service";
+import parkingServices from "../services/parkingBook.service";
 
-const { processChangeStatus, processDeleteOne, processGetAll } = rentServices;
+const { processChangeStatus, processDeleteOne, processGetAll } = parkingServices;
 const { Option } = Select;
 
-const RentBook = () => {
+const ParkingBook = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(9); // Default page size
   // const [expandedMessages, setExpandedMessages] = useState({});
@@ -27,7 +27,7 @@ const RentBook = () => {
 
   const queryClient = useQueryClient();
 
-  const queryKey = ["rentBookings", { page, limit, status: statusFilter }];
+  const queryKey = ["parkingBookings", { page, limit, status: statusFilter }];
 
   const { data, isLoading, isError } = useQuery({
     queryKey,
@@ -48,7 +48,7 @@ const RentBook = () => {
     mutationFn: ({ id, payload }) => processChangeStatus({ id, payload }),
     onSuccess: () => {
       antdMessage.success("Update successful");
-      queryClient.invalidateQueries(["rentBookings"]);
+      queryClient.invalidateQueries(["parkingBookings"]);
     },
   });
 
@@ -56,7 +56,7 @@ const RentBook = () => {
     mutationFn: ({ id }) => processDeleteOne({ id }),
     onSuccess: () => {
       antdMessage.success("Item deleted successfully");
-      queryClient.invalidateQueries(["rentBookings"]);
+      queryClient.invalidateQueries(["parkingBookings"]);
     },
   });
 
@@ -67,8 +67,8 @@ const RentBook = () => {
       width: 50,
     },
     {
-      title: "Rent Title",
-      render: (_, record) => record.rent?.title || "N/A",
+      title: "Parking Title",
+      render: (_, record) => record.parking?.title || "N/A",
       key: "title",
     },
     {
@@ -106,11 +106,11 @@ const RentBook = () => {
 
     {
       title: "Single Night Price",
-      render: (_, record) => `BDT ${record.rent?.price || "N/A"}`,
+      render: (_, record) => `BDT ${record.parking?.price || "N/A"}`,
       key: "singleprice",
     },
     {
-      title: "Rent Total Price",
+      title: "Parking Total Price",
       render: (_, record) => `BDT ${record?.price || "N/A"}`,
       key: "totalprice",
     },
@@ -150,11 +150,11 @@ const RentBook = () => {
         <div className="text-sm space-y-1">
           <div className="flex justify-between">
             <span className="text-gray-500 font-medium">Name:</span>
-            <span>{record.rentHost?.name || "N/A"}</span>
+            <span>{record.parkingHost?.name || "N/A"}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-500 font-medium">Email:</span>
-            <span>{record.rentHost?.email || "N/A"}</span>
+            <span>{record.parkingHost?.email || "N/A"}</span>
           </div>
         </div>
       ),
@@ -201,8 +201,8 @@ const RentBook = () => {
     {
       title: "Cover Image",
       render: (_, record) =>
-        record.rent?.images.length > 0 ? (
-          <Image width={80} src={`${baseUrl}${record.rent?.images[0]}`} />
+        record.parking?.images.length > 0 ? (
+          <Image width={80} src={`${baseUrl}${record.parking?.images[0]}`} />
         ) : (
           <div className="w-20 h-20 bg-gray-200 flex items-center justify-center">
             N/A
@@ -231,7 +231,7 @@ const RentBook = () => {
       className="w-full bg-white my-6 p-8 rounded-md overflow-y-auto"
       style={{ maxHeight: "80vh" }}
     >
-      <h1 className="text-2xl font-bold mb-4">Rent Booking Management</h1>
+      <h1 className="text-2xl font-bold mb-4">Parking Booking Management</h1>
 
       <div className="flex gap-4 mb-4">
         <Select
@@ -273,4 +273,4 @@ const RentBook = () => {
   );
 };
 
-export default RentBook;
+export default ParkingBook;

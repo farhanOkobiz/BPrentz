@@ -4,28 +4,28 @@ import { IRent, ICategory } from "@/types";
 import ParkingCategory from "../ParkingCategory/ParkingCategory";
 import ParkingList from "./ParkingList";
 interface ClientRentViewProps {
-  rents: IRent[];
+  parkings: IRent[];
   total: number;
   currentPage: number;
-  rentCategories: ICategory[];
+  parkingCategories: ICategory[];
   selectedCategoryId: string;
 }
 
 const ClientParkingView: React.FC<ClientRentViewProps> = ({
-  rents,
+  parkings,
   total,
   currentPage,
-  rentCategories,
+  parkingCategories,
   selectedCategoryId,
 }) => {
   return (
     <>
       <ParkingCategory
-        rentCategories={rentCategories}
+        parkingCategories={parkingCategories}
         selectedCategoryId={selectedCategoryId}
       />
 
-      <ParkingList rents={rents} total={total} currentPage={currentPage} />
+      <ParkingList parkings={parkings} total={total} currentPage={currentPage} />
     </>
   );
 };

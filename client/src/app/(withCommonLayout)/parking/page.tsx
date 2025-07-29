@@ -4,46 +4,44 @@ import { IListingFor } from "@/types";
 import { extractSearchParams } from "@/utilits/extractSearchParams";
 import { getAllFeature } from "@/services/feature";
 import { getAllCategory } from "@/services/category";
-import { getAllRents } from "@/services/rents";
-import ClientRentView from "@/components/rent/RentList/ClientRentView";
-import ClientRentTabs from "@/components/rent/RentCategory/ClientRentTabs";
+import { getAllParkings } from "@/services/parking";
 import ClientParkingTabs from "@/components/parking/ParkingCategory/ClientParkingTabs";
 import ClientParkingView from "@/components/parking/ParkingList/ClientParkingView";
 
 export interface SearchParams {
   [key: string]: string | string[] | undefined;
 }
-export interface RentPageProps {
+export interface ParkingPageProps {
   searchParams: Promise<SearchParams>;
 }
 
 const getCachedFeatures = cache(getAllFeature);
 const getCachedCategories = cache(getAllCategory);
-const getCachedRents = cache(getAllRents);
+const getCachedParkings = cache(getAllParkings);
 
-export default async function Parking({ searchParams }: RentPageProps) {
+export default async function Parking({ searchParams }: ParkingPageProps) {
   const resolvedParams = await searchParams;
   const params = extractSearchParams(resolvedParams);
 
   try {
     const { data: features } = await getCachedFeatures();
-    const featuresRentID = features.find(
-      (f: IListingFor) => f.featureName === "Rent"
+    const featuresParkingID = features.find(
+      (f: IListingFor) => f.featureName === "Parking"
     )?._id;
 
-    if (!featuresRentID) {
-      return <div>No Rent feature found.</div>;
+    if (!featuresParkingID) {
+      return <div>No Parking feature found.</div>;
     }
 
-    const [{ data: rentCategories }, { data: rents, total }] =
+    const [{ data: parkingCategories }, { data: parkings, total }] =
       await Promise.all([
-        getCachedCategories(featuresRentID),
-        getCachedRents({ ...params }),
+        getCachedCategories(featuresParkingID),
+        getCachedParkings({ ...params }),
       ]);
     const TabsSkeleton = () => (
       <div className="animate-pulse h-12 bg-gray-200 rounded mb-4" />
     );
-    const RentGridSkeleton = () => (
+    const ParkingGridSkeleton = () => (
       <div className="grid xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-2 gap-4">
         {Array.from({ length: 6 }).map((_, i) => (
           <div key={i} className="animate-pulse h-64 bg-gray-200 rounded" />
@@ -56,12 +54,12 @@ export default async function Parking({ searchParams }: RentPageProps) {
         <Suspense fallback={<TabsSkeleton />}>
           <ClientParkingTabs params={resolvedParams} />
         </Suspense>
-        <Suspense fallback={<RentGridSkeleton />}>
+        <Suspense fallback={<ParkingGridSkeleton />}>
           <ClientParkingView
-            rents={rents}
+            parkings={parkings}
             total={total}
             currentPage={params.page}
-            rentCategories={rentCategories}
+            parkingCategories={parkingCategories}
             selectedCategoryId={params.categoryId || "all"}
           />
         </Suspense>

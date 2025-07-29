@@ -13,10 +13,10 @@ import {
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { SearchOutlined, EyeOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import RentServices from "../services/rent.services";
+import ParkingServices from "../services/parking.services";
 import { baseUrl } from "../constants/env";
 
-const { processChangeStatus, processDeleteOne, processGetAll, processSelectRent } = RentServices;
+const { processChangeStatus, processDeleteOne, processGetAll, processSelectParking } = ParkingServices;
 
 
 const { Option } = Select;
@@ -27,13 +27,13 @@ const Parking = () => {
   const [sortOrder, setSortOrder] = useState();
   const [page, setPage] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedRent, setSelectedRent] = useState(null);
+  const [selectedParking, setSelectedParking] = useState(null);
 
   const queryClient = useQueryClient();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: [
-      "rents",
+      "parkings",
       page,
       statusFilter || "",
       sortOrder || "",
@@ -53,7 +53,7 @@ const Parking = () => {
     mutationFn: ({ id, payload }) => processChangeStatus({ id, payload }),
     onSuccess: () => {
       message.success("Status Change Successful");
-      queryClient.invalidateQueries(["rents"]);
+      queryClient.invalidateQueries(["parkings"]);
     },
   });
 
@@ -61,15 +61,15 @@ const Parking = () => {
     mutationFn: ({ id }) => processDeleteOne({ id }),
     onSuccess: () => {
       message.success("Item Deleted Successful");
-      queryClient.invalidateQueries(["rents"]);
+      queryClient.invalidateQueries(["parkings"]);
     },
   });
 
   const selectMutation = useMutation({
-    mutationFn: ({ id, payload }) => processSelectRent({ id, payload }),
+    mutationFn: ({ id, payload }) => processSelectParking({ id, payload }),
     onSuccess: () => {
       message.success("Priority updated");
-      queryClient.invalidateQueries(["rents"]);
+      queryClient.invalidateQueries(["parkings"]);
     },
     onError: () => {
       message.error("Failed to update priority");
@@ -171,7 +171,7 @@ const Parking = () => {
           <Button
             icon={<EyeOutlined />}
             onClick={() => {
-              setSelectedRent(record);
+              setSelectedParking(record);
               setIsModalOpen(true);
             }}
           />
@@ -190,12 +190,12 @@ const Parking = () => {
 
   const handleModalClose = () => {
     setIsModalOpen(false);
-    setSelectedRent(null);
+    setSelectedParking(null);
   };
 
   useEffect(() => {
     if (isError) {
-      message.error("Error loading rent listings.");
+      message.error("Error loading parking listings.");
     }
   }, [isError]);
 
@@ -260,7 +260,7 @@ const Parking = () => {
         pagination={{
           current: page,
           pageSize: 9,
-          total: data?.totalRents || 0,
+          total: data?.totalParkings || 0,
           onChange: (p) => setPage(p),
         }}
         scroll={{ x: "max-content" }}
@@ -268,33 +268,33 @@ const Parking = () => {
 
       <Modal
         title={
-          <span className="text-xl font-semibold">Rent Listing Details</span>
+          <span className="text-xl font-semibold">Parking Listing Details</span>
         }
         open={isModalOpen}
         onCancel={handleModalClose}
         footer={null}
         width={900}
       >
-        {selectedRent && (
+        {selectedParking && (
           <div className="space-y-6">
             <div>
               <h3 className="text-lg font-medium mb-2">Basic Info</h3>
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div className="text-gray-500">Title</div>
-                <div className="text-right">{selectedRent.title}</div>
+                <div className="text-right">{selectedParking.title}</div>
                 <div className="text-gray-500">Description</div>
-                <div className="text-right">{selectedRent.description}</div>
+                <div className="text-right">{selectedParking.description}</div>
                 <div className="text-gray-500">Category</div>
                 <div className="text-right">
-                  {selectedRent.category?.categoryName}
+                  {selectedParking.category?.categoryName}
                 </div>
                 <div className="text-gray-500">Location</div>
-                <div className="text-right">{selectedRent.location}</div>
+                <div className="text-right">{selectedParking.location}</div>
                 <div className="text-gray-500">Price</div>
-                <div className="text-right">${selectedRent.price}</div>
+                <div className="text-right">${selectedParking.price}</div>
                 <div className="text-gray-500">Status</div>
                 <div className="text-right capitalize">
-                  {selectedRent.status}
+                  {selectedParking.status}
                 </div>
               </div>
             </div>
@@ -305,7 +305,7 @@ const Parking = () => {
               <h3 className="text-lg font-medium mb-2">Images</h3>
               <Image.PreviewGroup>
                 <div className="flex gap-3 flex-wrap">
-                  {selectedRent.images?.map((img, idx) => (
+                  {selectedParking.images?.map((img, idx) => (
                     <Image
                       key={idx}
                       width={100}
@@ -317,11 +317,11 @@ const Parking = () => {
               </Image.PreviewGroup>
             </div>
 
-            {selectedRent.amenities?.length > 0 && (
+            {selectedParking.amenities?.length > 0 && (
               <div>
                 <h3 className="text-lg font-medium mb-2">Amenities</h3>
                 <div className="flex gap-3 flex-wrap">
-                  {selectedRent.amenities.map((item) => (
+                  {selectedParking.amenities.map((item) => (
                     <div
                       key={item._id}
                       className="flex items-center gap-2 text-sm"
@@ -338,11 +338,11 @@ const Parking = () => {
             )}
 
             {[
-              { label: "Allowable Things", data: selectedRent.allowableThings },
-              { label: "House Rules", data: selectedRent.houseRules },
+              { label: "Allowable Things", data: selectedParking.allowableThings },
+              { label: "House Rules", data: selectedParking.houseRules },
               {
                 label: "Cancellation Policy",
-                data: selectedRent.cancellationPolicy,
+                data: selectedParking.cancellationPolicy,
               },
             ].map(
               (section) =>
@@ -363,7 +363,7 @@ const Parking = () => {
             <div>
               <h3 className="text-lg font-medium mb-2">Floor Plan</h3>
               <div className="grid grid-cols-2 gap-4 text-sm">
-                {Object.entries(selectedRent.floorPlan || {}).map(
+                {Object.entries(selectedParking.floorPlan || {}).map(
                   ([key, val]) => (
                     <div key={key} className="flex justify-between">
                       <span className="text-gray-500">{key}</span>
@@ -374,11 +374,11 @@ const Parking = () => {
               </div>
             </div>
 
-            {selectedRent.listingFor?.length > 0 && (
+            {selectedParking.listingFor?.length > 0 && (
               <div>
                 <h3 className="text-lg font-medium mb-2">Listing For</h3>
                 <div className="flex gap-2 flex-wrap">
-                  {selectedRent.listingFor.map((item) => (
+                  {selectedParking.listingFor.map((item) => (
                     <Tag key={item._id}>{item.featureName}</Tag>
                   ))}
                 </div>

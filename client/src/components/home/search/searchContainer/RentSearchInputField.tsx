@@ -27,7 +27,7 @@ const RentSearchInputField: React.FC<RentSearchInputFieldProps> = ({ params }) =
   const router = useRouter();
   const searchParams = useSearchParams();
 
-    const [locationSuggestions, setLocationSuggestions] = useState<{ _id: string; location: string }[]>([]);
+  const [locationSuggestions, setLocationSuggestions] = useState<{ _id: string; location: string }[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -96,29 +96,29 @@ const RentSearchInputField: React.FC<RentSearchInputFieldProps> = ({ params }) =
     setGuestCounts(newCounts);
   };
 
-   const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const value = e.target.value;
-  setLocation(value);
+  const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setLocation(value);
 
-  if (debounceRef.current) clearTimeout(debounceRef.current);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
 
-  if (value.length > 1) {
-    debounceRef.current = setTimeout(async () => {
-      try {
-        const res = await fetch(`${apiBaseUrl}/location/search/${encodeURIComponent(value)}`);
-        const json = await res.json();
-        setLocationSuggestions(json.data || []);
-        setShowSuggestions(true);
-      } catch {
-        setLocationSuggestions([]);
-        setShowSuggestions(false);
-      }
-    }, 300);
-  } else {
-    setLocationSuggestions([]);
-    setShowSuggestions(false);
-  }
-};
+    if (value.length > 1) {
+      debounceRef.current = setTimeout(async () => {
+        try {
+          const res = await fetch(`${apiBaseUrl}/location/search/${encodeURIComponent(value)}`);
+          const json = await res.json();
+          setLocationSuggestions(json.data || []);
+          setShowSuggestions(true);
+        } catch {
+          setLocationSuggestions([]);
+          setShowSuggestions(false);
+        }
+      }, 300);
+    } else {
+      setLocationSuggestions([]);
+      setShowSuggestions(false);
+    }
+  };
 
   return (
     <div>
@@ -150,39 +150,39 @@ const RentSearchInputField: React.FC<RentSearchInputFieldProps> = ({ params }) =
           <div className="grid grid-cols-4 gap-4 w-full">
 
             <div className="w-full bg-[#F5F5F5] border border-transparent hover:border-primary focus-within:border-primary focus-within:ring-1 focus-within:ring-primary rounded-md p-2 relative">
-  <label className="block text-sm font-medium text-gray-700 mb-1">
-    Location
-  </label>
-  <input
-    type="text"
-    placeholder="Where to?"
-    className="w-full px-4 py-2 border-0 rounded-md focus:outline-none bg-[#F5F5F5]"
-    value={location}
-    onChange={handleLocationChange}
-    onFocus={() => locationSuggestions.length > 0 && setShowSuggestions(true)}
-    autoComplete="off"
-  />
-  {/* Suggestions Dropdown */}
-  {showSuggestions && locationSuggestions.length > 0 && (
-    <ul className="absolute left-0 right-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-56 overflow-y-auto animate-fadeIn z-20">
-      {locationSuggestions.map((item) => (
-        <li
-          key={item._id}
-          className="px-4 py-2 cursor-pointer hover:bg-primary/10 hover:text-primary transition-colors duration-150"
-          onClick={() => {
-            setLocation(item.location);
-            setShowSuggestions(false);
-          }}
-        >
-          <span className="flex items-center gap-2">
-            <VscLocation className="text-primary" />
-            {item.location}
-          </span>
-        </li>
-      ))}
-    </ul>
-  )}
-</div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Location
+              </label>
+              <input
+                type="text"
+                placeholder="Where to?"
+                className="w-full px-4 py-2 border-0 rounded-md focus:outline-none bg-[#F5F5F5]"
+                value={location}
+                onChange={handleLocationChange}
+                onFocus={() => locationSuggestions.length > 0 && setShowSuggestions(true)}
+                autoComplete="off"
+              />
+              {/* Suggestions Dropdown */}
+              {showSuggestions && locationSuggestions.length > 0 && (
+                <ul className="absolute left-0 right-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-56 overflow-y-auto animate-fadeIn z-20">
+                  {locationSuggestions.map((item) => (
+                    <li
+                      key={item._id}
+                      className="px-4 py-2 cursor-pointer hover:bg-primary/10 hover:text-primary transition-colors duration-150"
+                      onClick={() => {
+                        setLocation(item.location);
+                        setShowSuggestions(false);
+                      }}
+                    >
+                      <span className="flex items-center gap-2">
+                        <VscLocation className="text-primary" />
+                        {item.location}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
 
             {/* Check-in Date */}
             <div className="w-full bg-[#F5F5F5] border border-transparent hover:border-primary focus-within:border-primary focus-within:ring-1 focus-within:ring-primary rounded-md p-2">

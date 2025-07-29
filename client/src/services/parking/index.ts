@@ -1,7 +1,7 @@
 "use server";
 import { apiBaseUrl } from "@/config/config";
 
-export interface GetAllRentsParams {
+export interface GetAllParkingsParams {
   page?: number;
   status?: string;
   sort?: string;
@@ -29,7 +29,7 @@ export const getAllParkings = async ({
   bathCount,
   bedCount,
   guestCount,
-}: GetAllRentsParams = {}) => {
+}: GetAllParkingsParams = {}) => {
 
   const params = new URLSearchParams();
   params.append("page", page.toString());
@@ -47,10 +47,10 @@ export const getAllParkings = async ({
   if (guestCount !== undefined)
     params.append("guestCount", guestCount.toString());
 
-  const url = `${apiBaseUrl}/rent-search?${params.toString()}`;
+  const url = `${apiBaseUrl}/parking-search?${params.toString()}`;
 
   const res = await fetch(url, { cache: "no-store" });
-  if (!res.ok) throw new Error("Failed to fetch rents");
+  if (!res.ok) throw new Error("Failed to fetch parkings");
 
   const json = await res.json();
   return {
@@ -60,7 +60,7 @@ export const getAllParkings = async ({
   };
 };
 
-// export const getAllRents = async ({
+// export const getAllParkings = async ({
 //   page = 1,
 //   status,
 //   sort,
@@ -72,7 +72,7 @@ export const getAllParkings = async ({
 //   bathCount,
 //   bedCount,
 //   guestCount,
-// }: GetAllRentsParams = {}) => {
+// }: GetAllParkingsParams = {}) => {
 //   const params = new URLSearchParams();
 //   params.append("page", page.toString());
 //   if (status) params.append("status", status);
@@ -88,26 +88,26 @@ export const getAllParkings = async ({
 //   if (guestCount !== undefined)
 //     params.append("guestCount", guestCount.toString());
 
-//   const url = `${apiBaseUrl}/rent-search?${params.toString()}`;
+//   const url = `${apiBaseUrl}/parking-search?${params.toString()}`;
 
 //   const res = await fetch(url);
-//   if (!res.ok) throw new Error("Failed to fetch rents");
+//   if (!res.ok) throw new Error("Failed to fetch parkings");
 
 //   const json = await res.json();
 //   console.log("data ==== ", json);
 //   return {
 //     data: json.data,
-//     totalRents: json.totalRents,
+//     totalParkings: json.totalParkings,
 //     totalPages: json.totalPages,
 //   };
 // };
 
-export const getAllHostRents = async (
+export const getAllHostParkings = async (
   accessToken?: string,
   page: number = 1,
   limit?: number
 ) => {
-  const url = new URL(`${apiBaseUrl}/host/rent`);
+  const url = new URL(`${apiBaseUrl}/host/parking`);
   url.searchParams.append("page", String(page));
   if (limit !== undefined) {
     url.searchParams.append("limit", String(limit));
@@ -121,19 +121,19 @@ export const getAllHostRents = async (
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch host rents");
+    throw new Error("Failed to fetch host parkings");
   }
 
   return res.json();
 };
 
-export const getGuestRents = async (
+export const getGuestParkings = async (
   accessToken?: string,
   page: number = 1,
   limit: number = 10
 ) => {
   const res = await fetch(
-    `${apiBaseUrl}/guest/rent/bookings?page=${page}&limit=${limit}`,
+    `${apiBaseUrl}/guest/parking/bookings?page=${page}&limit=${limit}`,
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -143,24 +143,24 @@ export const getGuestRents = async (
   );
 
   if (!res.ok) {
-    throw new Error("Failed to fetch guest rents");
+    throw new Error("Failed to fetch guest parkings");
   }
 
   return res.json();
 };
 
-export const getSingleRentBySlug = async (slug: string) => {
-  const res = await fetch(`${apiBaseUrl}/rent/${slug}`);
+export const getSingleParkingBySlug = async (slug: string) => {
+  const res = await fetch(`${apiBaseUrl}/parking/${slug}`);
 
   if (!res.ok) {
-    throw new Error("Failed to fetch rent");
+    throw new Error("Failed to fetch parking");
   }
 
   return res.json();
 };
-export const getBlockedDates = async (rentId: string) => {
+export const getBlockedDates = async (parkingId: string) => {
   const res = await fetch(
-    `${apiBaseUrl}/host/rent/date-block-list?rentId=${rentId}`
+    `${apiBaseUrl}/host/parking/date-block-list?parkingId=${parkingId}`
     // {
     //   headers: {
     //     Authorization: `Bearer ${accessToken}`,
@@ -170,11 +170,11 @@ export const getBlockedDates = async (rentId: string) => {
   );
   return res.json();
 };
-export const getRentBookingsCalenderDateBlocked = async (
-  rentId: string,
+export const getParkingBookingsCalenderDateBlocked = async (
+  parkingId: string,
   token?: string
 ) => {
-  const res = await fetch(`${apiBaseUrl}/rent/${rentId}/bookings`, {
+  const res = await fetch(`${apiBaseUrl}/parking/${parkingId}/bookings`, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
@@ -183,46 +183,46 @@ export const getRentBookingsCalenderDateBlocked = async (
   return res.json();
 };
 export const postToggleBlockDate = async ({
-  rentId,
+  parkingId,
   date,
   accessToken,
 }: {
-  rentId: string;
+  parkingId: string;
   date: string;
   accessToken: string;
 }) => {
-  const res = await fetch(`${apiBaseUrl}/host/rent/date-block-list`, {
+  const res = await fetch(`${apiBaseUrl}/host/parking/date-block-list`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ rentId, date }),
+    body: JSON.stringify({ parkingId, date }),
   });
 
   if (!res.ok) throw new Error("Failed to toggle block date");
   return res.json();
 };
 
-export interface GetRentBookingsParams {
+export interface GetParkingBookingsParams {
   status?: string;
   accessToken?: string;
   page?: number;
   limit?: number;
 }
 
-export const getRentBookings = async ({
+export const getParkingBookings = async ({
   status,
   accessToken,
   page,
   limit,
-}: GetRentBookingsParams = {}) => {
+}: GetParkingBookingsParams = {}) => {
   const params = new URLSearchParams();
   if (status) params.append("status", status);
   if (page) params.append("page", String(page));
   if (limit) params.append("limit", String(limit));
 
-  const url = `${apiBaseUrl}/booking/rent?${params.toString()}`;
+  const url = `${apiBaseUrl}/booking/parking?${params.toString()}`;
 
   const res = await fetch(url, {
     headers: {
@@ -231,11 +231,11 @@ export const getRentBookings = async ({
     },
   });
 
-  if (!res.ok) throw new Error("Failed to fetch rent bookings");
+  if (!res.ok) throw new Error("Failed to fetch parking bookings");
   return res.json();
 };
 
-export const getHostRentEarnings = async ({
+export const getHostParkingEarnings = async ({
   formMonth,
   toMonth,
   formYear,
@@ -254,7 +254,7 @@ export const getHostRentEarnings = async ({
   params.append("formYear", formYear);
   params.append("toYear", toYear);
 
-  const url = `${apiBaseUrl}/host/rent/bookings/earnings?${params.toString()}`;
+  const url = `${apiBaseUrl}/host/parking/bookings/earnings?${params.toString()}`;
   console.log("url ----------------------------------", url);
   const res = await fetch(url, {
     headers: {
@@ -264,32 +264,32 @@ export const getHostRentEarnings = async ({
   });
 
   if (!res.ok) {
-    throw new Error("Failed to fetch host rent earnings");
+    throw new Error("Failed to fetch host parking earnings");
   }
   return res.json();
 };
 
 export const createBooking = async ({
-  rent,
+  parking,
   checkinDate,
   checkoutDate,
   guestCount,
   accessToken,
 }: {
-  rent: string;
+  parking: string;
   checkinDate: string;
   checkoutDate: string;
   guestCount: number | string;
   accessToken: string;
 }) => {
-  const res = await fetch(`${apiBaseUrl}/booking/rent`, {
+  const res = await fetch(`${apiBaseUrl}/booking/parking`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      rent,
+      parking,
       checkinDate,
       checkoutDate,
       guestCount,
@@ -300,8 +300,8 @@ export const createBooking = async ({
   return res.json();
 };
 
-export const getRentBookingsByRentId = async (rentId: string) => {
-  const res = await fetch(`${apiBaseUrl}/rent/${rentId}/bookings`);
+export const getParkingBookingsByParkingId = async (parkingId: string) => {
+  const res = await fetch(`${apiBaseUrl}/rent/${parkingId}/bookings`);
   console.log("res", res);
   if (!res.ok) throw new Error("Failed to fetch bookings");
   return res.json();

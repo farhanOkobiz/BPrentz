@@ -16,12 +16,12 @@ const TopNavWithAction = () => {
 
   return (
     <div className="Container bg-white sticky-top shadow-sm py-3 px-4 md:px-10 flex justify-between items-center">
-      <Link href={"#"} className="w-[140px] md:w-[180px]">
+      <Link href={"#"} className="w-[140px] md:w-[100px] h-[80px]">
         <Image
           src={logo}
           alt="logo"
           width={160}
-          height={160}
+          height={60}
           className="w-full h-full"
         />
       </Link>
